@@ -1,15 +1,14 @@
-package net.jeremybeard.crunchtexttorcfile;
+package net.jeremybeard.crunchcsvtorcfile;
 
 import java.io.UnsupportedEncodingException;
 
-import org.apache.crunch.DoFn;
-import org.apache.crunch.Emitter;
+import org.apache.crunch.MapFn;
 import org.apache.crunch.Pair;
 import org.apache.hadoop.hive.serde2.columnar.BytesRefArrayWritable;
 import org.apache.hadoop.hive.serde2.columnar.BytesRefWritable;
 
 @SuppressWarnings("serial")
-public class ConvertCSVToRCFileFormatFn extends DoFn<String, Pair<Void, BytesRefArrayWritable>> {
+public class ConvertCSVToRCFileFormatFn extends MapFn<String, Pair<Void, BytesRefArrayWritable>> {
     private int numCols;
     private BytesRefArrayWritable bytes;
     
@@ -20,7 +19,7 @@ public class ConvertCSVToRCFileFormatFn extends DoFn<String, Pair<Void, BytesRef
     }
 
     @Override
-    public void process(String csvLine, Emitter<Pair<Void, BytesRefArrayWritable>> emitter) {
+    public Pair<Void, BytesRefArrayWritable> map(String csvLine) {
         byte[] fieldData = null;
         bytes.clear();
         
@@ -37,6 +36,6 @@ public class ConvertCSVToRCFileFormatFn extends DoFn<String, Pair<Void, BytesRef
             bytes.set(i, cu);
         }
         
-        emitter.emit(Pair.of((Void)null, bytes));
+        return Pair.of((Void)null, bytes);
     }
 }

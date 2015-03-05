@@ -1,4 +1,4 @@
-package net.jeremybeard.crunchtexttorcfile;
+package net.jeremybeard.crunchcsvtorcfile;
 
 import org.apache.crunch.PCollection;
 import org.apache.crunch.PTable;
